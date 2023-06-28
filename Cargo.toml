@@ -1,5 +1,5 @@
 [package]
-name = "get-wiki-links"
+name = "wiki-get-links"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,4 +7,9 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.71"
-parse_wiki_text = "0.1.5"
+async_parse_wiki_text = { git = "https://github.com/thinkrapido/async_parse_wiki_test.git" }
+
+[dev-dependencies]
+futures-time = "3.0.0"
+parking_lot = "0.12.1"
+tokio = { version = "1.28.2", features = ["rt", "rt-multi-thread", "macros"] }

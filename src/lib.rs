@@ -1,4 +1,4 @@
-use parse_wiki_text::Node;
+use async_parse_wiki_text::Node;
 
 pub fn get_links<'a>(vec: &'a mut Vec<String>, nodes: &'a Vec<Node<'a>>) {
 
