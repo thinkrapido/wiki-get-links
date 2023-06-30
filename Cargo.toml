@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.71"
-async_parse_wiki_text = { git = "https://github.com/thinkrapido/async_parse_wiki_test.git" }
+async_parse_wiki_text = { path = "../async_parse_wiki_text" }
 
 [dev-dependencies]
 futures-time = "3.0.0"

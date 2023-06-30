@@ -1,11 +1,11 @@
 use async_parse_wiki_text::Node;
 
-pub fn get_links<'a>(vec: &'a mut Vec<String>, nodes: &'a Vec<Node<'a>>) {
+pub fn get_links(vec: &mut Vec<String>, nodes: &Vec<Node>) {
 
     for node in nodes {
         match node {
             Node::Link { target, text, ..} => {
-                vec.push(target.to_string());
+                vec.push(target.as_ref().to_string());
                 get_links(vec, text);
             },
             Node::Category { ordinal, ..} => {

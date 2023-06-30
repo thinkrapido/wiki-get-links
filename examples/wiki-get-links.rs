@@ -3,6 +3,7 @@ use futures_time::prelude::*;
 use parking_lot::RwLock;
 use std::sync::Arc;
 
+use async_parse_wiki_text::WikiText;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -11,20 +12,23 @@ async fn main() -> anyhow::Result<()> {
         None => on_error("no file provided", anyhow::Error::msg("no file provided")),
         Some(filename) => {
             let mut file = open(&filename)?;
-            let text = Arc::pin(RwLock::new(String::new()));
-            let _ = file.read_to_string(&mut text.write())?;
-            let tree: Arc<RwLock<Option<async_parse_wiki_text::Output<'_>>>> = Default::default();
-            let t = tree.clone();
+            let mut text = String::new();
+            let _ = file.read_to_string(&mut text)?;
+            let tree: Arc<RwLock<Option<async_parse_wiki_text::Output>>> = Default::default();
+            let text = WikiText::new(text);
             let te = text.clone();
+            let tr = tree.clone();
             match async move {
-                    *t.write() = Some(async_parse_wiki_text::Configuration::default().parse(&te.read()).await);
+                    *tree.write() = Some(async_parse_wiki_text::Configuration::default().parse(te).await);
                 }
-                .timeout(futures_time::time::Duration::from_secs(3))
+                .timeout(futures_time::time::Duration::from_secs(11))
                 .await  
             {
-                Ok(result) => {
+                Ok(_) => {
                     let mut links = vec![];
-                    wiki_get_links::get_links(&mut links, &tree.read().unwrap().nodes);
+                    if let Some(ref output) = *tr.read() {
+                        wiki_get_links::get_links(&mut links, &output.nodes);
+                    }
                     println!("{links:?}");
                 }
                 _ => eprintln!("aborted..."),
