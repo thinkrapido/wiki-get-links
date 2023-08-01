@@ -7,6 +7,9 @@ use async_parse_wiki_text::WikiText;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+
+    env_logger::init();
+
     let mut args = std::env::args();
     match args.nth(1) {
         None => on_error("no file provided", anyhow::Error::msg("no file provided")),

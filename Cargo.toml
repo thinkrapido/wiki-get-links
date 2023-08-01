@@ -7,9 +7,11 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.71"
-async_parse_wiki_text = "0.2.1"
+async_parse_wiki_text = { path = "../async_parse_wiki_text" }
 
 [dev-dependencies]
 futures-time = "3.0.0"
 parking_lot = "0.12.1"
 tokio = { version = "1.28.2", features = ["rt", "rt-multi-thread", "macros"] }
+env_logger = "0.10.0"
+log = "0.4.19"
